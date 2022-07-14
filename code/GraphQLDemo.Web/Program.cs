@@ -2,6 +2,7 @@ using GraphQLDemo.Infrastructure;
 using GraphQLDemo.Web;
 using Microsoft.EntityFrameworkCore;
 using GraphQL.Server.Ui.Voyager;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +15,7 @@ builder.Services.AddPooledDbContextFactory<ApplicationDbContext>(options =>
 
 builder.Services.AddControllers();
 
-// Swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     
 builder.Services
     .AddGraphQLServer()
@@ -34,8 +33,6 @@ var app = builder.Build();
 if(app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwagger();
-    app.UseSwaggerUI();
 }
 
 app.UseWebSockets();
